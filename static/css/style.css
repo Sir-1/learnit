@@ -1,0 +1,19 @@
+div.header{
+  width: 100vw;
+  background-color: rgb(30,30,30);
+  height: 20vh;
+  padding: 0;
+  float: left;
+  color: white;
+}
+
+body{
+  margin: 0;
+
+}
+
+.title{
+  padding: 10px;
+  margin-left: 10px;
+
+}
