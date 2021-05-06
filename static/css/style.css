@@ -1,14 +1,17 @@
 div.header{
   width: 100vw;
-  background-color: rgb(30,30,30);
+  background-color: rgb(45,45,45);
   height: 20vh;
   padding: 0;
-  float: left;
-  color: white;
+  color: rgb(140,190,220);
+  border-bottom: solid 5px cyan;
+  line-height: 10vh;
+  margin-bottom: 1px;
 }
 
 body{
   margin: 0;
+  background-color: rgb(15,15,15)
 
 }
 
@@ -16,4 +19,15 @@ body{
   padding: 10px;
   margin-left: 10px;
 
+}
+
+.sidebar{
+  height: 80vh;
+  width: 15vw;
+  background-color: rgb(45,45,45);
+  color:rgb(140,190,220);
+}
+
+h3.sidebarTitle{
+  padding: 10px;
 }
