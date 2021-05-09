@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<link rel="stylesheet" href="../static/css/style.css">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="sidebar">
+      <h3 class="sidebarTitle">My Classrooms</h3>
+
+      {%for i in range(7)%}
+        <p class="sidebarText">Classroom {{i}}</p>
+      {%endfor%}
+    </div>
+  </body>
+</html>
