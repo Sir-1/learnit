@@ -13,7 +13,10 @@ def main():
                             classroom.name from Post join user ON Post.Uid =
                             User.id join classroom ON Post.Cid = classroom.id;
                             """)
-    return render_template("main.html", title="main", stuff=posts)
+    posts = cursor.fetchall()
+    classes = cursor.execute("select name from classroom;")
+    return render_template("main.html", title="main", stuff=posts,
+                           classrooms=classes)
 
 
 if __name__ == "__main__":

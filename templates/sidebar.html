@@ -9,8 +9,8 @@
     <div class="sidebar">
       <h3 class="sidebar-Title">My Classrooms</h3>
 
-      {%for i in range(7)%}
-        <p class="sidebar-Text">Classroom {{i}}</p>
+      {%for i in classrooms%}
+        <p class="sidebar-Text">{{i[0]}}</p>
       {%endfor%}
     </div>
   </body>

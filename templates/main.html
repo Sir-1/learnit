@@ -11,6 +11,7 @@
     {%for i in stuff%}
     <div class="post">
       <p class="post-title">{{i[1]}}</p>
+      <p class="post-subtext">{{i[5]}} - {{i[6]}}</p>
       {%if i[2] != None%}
       <img class="post-image" src="../static/images/{{i[2]}}" alt="{{i[2]}}" >
       {%endif%}
