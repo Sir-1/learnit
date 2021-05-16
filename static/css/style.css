@@ -18,8 +18,8 @@ body{
 .title{
   margin-top: 0px;
   width: auto;
-  width:50vw;
   margin-left: 20px;
+  text-transform: capitalize;
 
 }
 
@@ -89,5 +89,26 @@ div.post{
   color: rgb(140,190,220);
   margin-left: 5%;
   margin-top: 0px;
+
+}
+
+.class-description{
+  display: inline;
+  margin-left: 5px;
+  color: rgb(100,140,170);
+  font-size: 12px;
+  width: 1px;
+  text-shadow: black;
+  height: auto;
+  line-height: 10px;
+}
+
+.class-title{
+  color: rgb(140,190,220);
+  font-size: xxlarge;
+  margin-top: 0px;
+  text-transform: capitalize;
+  display: inline;
+  float: left;
 
 }
