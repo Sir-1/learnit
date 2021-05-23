@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="post">
+      <p class="post-title">{{i[1]}}</p>
+      <p class="post-subtext">{{i[5]}} - {{i[6]}}</p>
+      <a href="/classroom/{{i[7]}}">{{i[6]}}</a>
+      {%if i[2] != None%}
+      <img class="post-image" src="../static/images/{{i[2]}}" alt="{{i[2]}}" >
+      {%endif%}
+      {%if i[3] != None%}
+      <p class="post-text">{{i[3]}}</p>
+      {%endif%}
+    </div>
+  </body>
+</html>

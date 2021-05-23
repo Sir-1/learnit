@@ -21,6 +21,7 @@ body{
   text-transform: capitalize;
   line-height: 100px;
   text-decoration: none;
+  color:rgb(140,190,220);
 
 }
 
@@ -44,10 +45,12 @@ h3.sidebar-Title{
   line-height: 30px;
 }
 
-p.sidebar-Text{
+.sidebar-Text{
   margin-left: 30px;
   color: white;
   text-transform: capitalize;
+  display: block;
+  margin-bottom: 15px;
 }
 
 div.post{

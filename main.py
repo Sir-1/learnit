@@ -20,11 +20,11 @@ def do_query(query, data, fetch):
 def main():
     posts = do_query("""SELECT Post.id,Post.title, Post.content,
                             Post.Text, Post.Usefulness, User.name,
-                            classroom.name from Post join user ON Post.Uid =
-                            User.id join classroom ON Post.Cid = classroom.id;
+                            classroom.name,Cid from Post join user ON Post.Uid
+                            =User.id join classroom ON Post.Cid = classroom.id;
                             """, (), None)
     print(posts)
-    classes = do_query("select name from classroom;", (), None)
+    classes = do_query("select name, id from classroom;", (), None)
     return render_template("main.html", title="main", stuff=posts,
                            classrooms=classes)
 
@@ -33,12 +33,14 @@ def main():
 def classrooms(ClassID):
     posts = do_query("""SELECT Post.id,Post.title, Post.content,
                             Post.Text, Post.Usefulness, User.name,
-                            classroom.name from Post join user ON Post.Uid =
-                            User.id join classroom ON Post.Cid = classroom.id
+                            classroom.name,Cid from Post join user ON Post.Uid
+                            = User.id join classroom ON Post.Cid = classroom.id
                             where cid = ?;
                             """, (ClassID,), None)
     classroom = do_query("select * from classroom where id=?", (ClassID,), 1)
-    return render_template("classroom.html", stuff=posts, info=classroom)
+    classes = do_query("select name, id from classroom;", (), None)
+    return render_template("classroom.html", stuff=posts, info=classroom,
+                           classrooms=classes)
 
 
 if __name__ == "__main__":
