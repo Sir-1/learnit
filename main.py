@@ -16,13 +16,23 @@ def do_query(query, data, fetch):
     return result
 
 
-@app.route("/")
-def main():
-    posts = do_query("""SELECT Post.id,Post.title, Post.content,
-                            Post.Text, Post.Usefulness, User.name,
-                            classroom.name,Cid from Post join user ON Post.Uid
-                            =User.id join classroom ON Post.Cid = classroom.id;
-                            """, (), None)
+@app.route("/<UserId>")
+def main_user(UserId):
+    if UserId is None:
+        posts = do_query("""SELECT Post.id,Post.title, Post.content,
+                                Post.Text, Post.Usefulness, User.name,
+                                classroom.name,Cid from Post join user ON
+                                Post.Uid=User.id join classroom ON Post.Cid =
+                                classroom.id;""", (), None)
+    else:
+        posts = do_query("""SELECT Post.id,Post.title, Post.content, Post.Text,
+                            Post.Usefulness, User.name, classroom.name,
+                            User_Classroom.Cid from User
+                            Join User_Classroom ON User.id = User_Classroom.Uid
+                            JOIN classroom ON User_Classroom.Cid = classroom.id
+                            JOIN Post ON classroom.id = Post.Cid
+                            WHERE User.id = ?""",
+                         (UserId,), None)
     print(posts)
     classes = do_query("select name, id from classroom;", (), None)
     return render_template("main.html", title="main", stuff=posts,

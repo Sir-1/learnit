@@ -16,7 +16,7 @@ body{
 
 .title{
   margin-top: 0px;
-  width: auto;
+  width: 20vw;
   margin-left: 20px;
   text-transform: capitalize;
   line-height: 100px;
@@ -27,6 +27,8 @@ body{
 
 .Title-link{
   text-decoration: none;
+  heignt:100%;
+  color:rgb(140,190,220);
 }
 
 .sidebar{
@@ -59,8 +61,11 @@ div.post{
   width: 30vw;
   background-color: rgb(40,40,40);
   padding-bottom:  10px;
-  box-shadow: inset 0px 0px 0px 1px rgb(140,190,220);
 
+}
+
+div.post:hover{
+  box-shadow: inset 0px 0px 0px 1px rgb(140,190,220);
 }
 
 .post-title{
@@ -97,6 +102,9 @@ div.post{
   color: rgb(140,190,220);
   margin-left: 5%;
   margin-top: 0px;
+  text-decoration: none;
+  display: inline;
+
 
 }
 
