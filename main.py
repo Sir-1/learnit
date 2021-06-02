@@ -1,7 +1,8 @@
 import sqlite3
-from flask import Flask, Response, render_template, abort, request
+from flask import Flask, Response, render_template, abort, request, session
 
 app = Flask(__name__)
+app.secret_key = """b'(\x9a^\xde\xf8tZm_/&?X\xeb\x00\xda'"""
 
 
 def do_query(query, data, fetch):
@@ -16,25 +17,28 @@ def do_query(query, data, fetch):
     return result
 
 
-@app.route("/<UserId>")
-def main_user(UserId):
-    if UserId is None:
+@app.route("/")
+def main_user():
+    session["_User"] = 3
+    if session["_User"] == 0:
         posts = do_query("""SELECT Post.id,Post.title, Post.content,
-                                Post.Text, Post.Usefulness, User.name,
-                                classroom.name,Cid from Post join user ON
-                                Post.Uid=User.id join classroom ON Post.Cid =
-                                classroom.id;""", (), None)
+                        Post.Text, Post.Usefulness, User.name,
+                        classroom.name,Cid from Post join user ON
+                        Post.Uid=User.id join classroom ON Post.Cid =
+                        classroom.id;""", (), None)
+        classes = do_query("""SELECT name, id from classroom""", (), None)
     else:
         posts = do_query("""SELECT Post.id,Post.title, Post.content, Post.Text,
-                            Post.Usefulness, User.name, classroom.name,
-                            User_Classroom.Cid from User
-                            Join User_Classroom ON User.id = User_Classroom.Uid
-                            JOIN classroom ON User_Classroom.Cid = classroom.id
-                            JOIN Post ON classroom.id = Post.Cid
-                            WHERE User.id = ?""",
-                         (UserId,), None)
-    print(posts)
-    classes = do_query("select name, id from classroom;", (), None)
+                        Post.Usefulness, Post.Uid, classroom.name,
+                        User_Classroom.Cid from User
+                        Join User_Classroom ON User.id = User_Classroom.Uid
+                        JOIN classroom ON User_Classroom.Cid = classroom.id
+                        JOIN Post ON classroom.id = Post.Cid
+                        WHERE User.id = ?""",
+                         (int(session["_User"]),), None)
+        classes = do_query("""select classroom.name, id from User_Classroom join
+                            classroom ON classroom.id = Cid WHERE Uid = ?;""",
+                           (int(session["_User"]),), None)
     return render_template("main.html", title="main", stuff=posts,
                            classrooms=classes)
 
