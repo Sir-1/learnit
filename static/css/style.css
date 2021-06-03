@@ -6,6 +6,7 @@ div.header{
   color: rgb(140,190,220);
   border-bottom: solid 5px cyan;
   margin-bottom: 1px;
+  position: relative;
 }
 
 body{
@@ -22,6 +23,8 @@ body{
   line-height: 100px;
   text-decoration: none;
   color:rgb(140,190,220);
+  margin-bottom: 0;
+  float:left;
 
 }
 
@@ -39,6 +42,7 @@ body{
   float: left;
   position: sticky;
   top: 0px;
+  z-index: 1;
 }
 
 h3.sidebar-Title{
@@ -143,5 +147,21 @@ div.post:hover{
   margin-left: 35px;
   vertical-align: middle;
   height: 100%;
+
+}
+
+.login-box{
+  position: absolute;
+  display: inline-block;
+  height: 100%;
+  width: 20%;
+  right: 0;
+  float: right;
+
+}
+
+.login-input{
+  marign-left:10px;
+  background color: rgba(200, 200, 200, 0.25);
 
 }
