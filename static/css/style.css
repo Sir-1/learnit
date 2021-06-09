@@ -165,3 +165,9 @@ div.post:hover{
   background color: rgba(200, 200, 200, 0.25);
 
 }
+
+.loggedin-name{
+  float: right;
+  margin-right: 20px;
+
+}

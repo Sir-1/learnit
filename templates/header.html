@@ -10,14 +10,24 @@
 
         <h1 class="title"><a href="/" class="Title-link">Learn.it</a></h1>
 
-        {%if uid == 0%}
+
         <div class="login-box">
+          {%if uid == 0%}
           <br>
-          <input class="login-input" type="text" name="UserName" placeholder="User Name">
-          <br><br>
-          <input class="login-input" type="text" name="Password" placeholder="Password">
+          <form class="" action="/login" method="post">
+            <input class="login-input" type="text" name="UserName" placeholder="User Name">
+            <br><br>
+            <input class="login-input" type="text" name="Password" placeholder="Password">
+            <input type="submit" name="" value="login">
+          </form>
+          {%else%}
+              <p class="loggedin-name">{{user_name[0]}}</p>
+          {%endif%}
         </div>
-        {%endif%}
+
+
+
+
 
     </div>
   </body>
