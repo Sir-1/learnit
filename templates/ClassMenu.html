@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Classroom-menu</title>
+  </head>
+  <body>
+    {%include 'header.html'%}
+    {%include 'sidebar.html'%}
+    {%for i in stuff%}
+    <div class="post">
+      <a href="/classroom/{{i[0]}}"><h1 class="post-title" >{{i[1]}}</h1></a>
+      {%if uid != 0%}
+      <form action="join_Classroom" method="post">
+        {%if (i[0],) in myclassrooms%}
+        <button class="join-button" name="Join" value="{{i[0]}}" type="submit">Leave</button>
+        {%else%}
+        <button class="join-button" name="Join" value="{{i[0]}}" type="submit">Join</button>
+        {%endif%}
+
+      </form>
+      {%endif%}
+      <p class="post-text">{{i[2]}}</p>
+    </div>
+    {%endfor%}
+    {{my_classrooms}}
+  </body>
+</html>

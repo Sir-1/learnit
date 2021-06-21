@@ -21,7 +21,11 @@
             <input type="submit" name="" value="login">
           </form>
           {%else%}
+          <form class="logout" action="/logout" method="post">
+            <input type="submit" name="" value="logout">
+          </form>
               <p class="loggedin-name">{{user_name[0]}}</p>
+
           {%endif%}
         </div>
 
