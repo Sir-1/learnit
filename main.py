@@ -53,13 +53,16 @@ def main_user():
                         WHERE User.id = ? order by Post.id DESC""",
                          (int(session["_User"]),), None)
         names = do_query("""SELECT User.name from Post join User on User.id =
-                            Post.id WHERE Post.Cid in
-                            (SELECT Cid from User_Classroom Where Uid = ?)""",
-                         (session["_User"],), "")
+                            Post.Uid WHERE Post.Cid in
+                            (SELECT Cid from User_Classroom Where Uid = 1)""",
+                         (), None)
+        print(names)
+        for i in range(len(posts)):
+            posts[i] = list(posts[i])
         try:
             for i in range(len(names)):
                 print(posts[i][5])
-                posts[i][5] = names[i]
+                posts[i][5] = names[i][0]
 
         except Exception as error:
             print(error)
@@ -88,6 +91,9 @@ def classrooms(ClassID):
     classes = do_query("select name, id from classroom;", (), None)
     if session.get("_User") is not None:
         id = session["_User"]
+        classes = do_query("""select classroom.name, id from User_Classroom
+                            join classroom ON classroom.id = Cid WHERE Uid = ?;
+                            """, (int(session["_User"]),), None)
         name = do_query("SELECT name from User where id = ?",
                         (session["_User"],), "fetch")
     return render_template("classroom.html", stuff=posts, info=classroom,
