@@ -8,7 +8,13 @@
   <body>
     <div class="header">
 
-        <h1 class="title"><a href="/" class="Title-link">Learn.it</a></h1>
+        <h1 class="title"><a href="/" class="Title-link">Learn.it</a>
+          {%if uid !=0%}
+<div class="post-button-div">
+  <button type="button" name="Post" class="post-button"><a href="/Post" >Post</a></button>
+</div>
+{%endif%}
+        </h1>
 
 
         <div class="login-box">

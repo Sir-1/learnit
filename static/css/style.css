@@ -201,3 +201,93 @@ div.post:hover{
   float: right;
 
 }
+
+.post-button-div{
+  display: inline-block;
+}
+
+.post-button{
+  display: inline;
+  margin-left: 100%;
+
+}
+
+.title-input{
+  background-color: rgb(45,45,45);
+  color: rgb(140,190,220);
+  font-size: large;
+  margin-left: 10px;
+  border: solid cyan 1px;
+  resize: none;
+  overflow: hidden;
+  width: 93%;
+
+
+}
+.image-input{
+  color: rgb(140,190,220);
+  margin-left: 10px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  background-color: rgb(45,45,45);
+
+}
+
+.text-input{
+  background-color: rgb(45,45,45);
+  color: rgb(140,190,220);
+  margin-left: 10px;
+  border: solid cyan 1px;
+  resize: none;
+  overflow: hidden;
+  width: 93%;
+
+}
+
+.class-input{
+  background-color: rgb(45,45,45);
+  border:  solid cyan 1px;
+  color: rgb(140,190,220);
+  margin-left: 10px;
+
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    background-color: rgb(45,45,45);
+    width:50px;
+    text-align: center;
+    padding: 3px;
+    border-radius: 3px;
+    margin-left: 10px;
+    border: 1px solid cyan;
+    color: rgb(140,190,220);
+}
+
+.fileUpload:hover{
+  background-color: rgb(140,190,220);
+  color: rgb(45, 45, 45);
+
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+
+}
+
+.submit-input{
+  margin-left: 10px;
+  background-color: rgb(45,45,45);
+  color: rgb(140,190,220);
+  border: 1px solid cyan;
+
+}

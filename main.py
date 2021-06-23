@@ -1,8 +1,17 @@
 import sqlite3
 from flask import (Flask, Response, render_template, abort, request, session, redirect, url_for,flash)
+from werkzeug.utils import secure_filename
+import os
 
 app = Flask(__name__)
 app.secret_key = """b'(\x9a^\xde\xf8tZm_/&?X\xeb\x00\xda'"""
+UPLOAD_FOLDER = './static/images/'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+
+def allowed_filename(filename):
+    return "." in filename and filename.rsplit(".", 1).lower() in ALLOWED_EXTENSIONS
 
 
 def do_query(query, data, fetch):
@@ -49,7 +58,9 @@ def main_user():
                          (session["_User"],), "")
         try:
             for i in range(len(names)):
+                print(posts[i][5])
                 posts[i][5] = names[i]
+
         except Exception as error:
             print(error)
         classes = do_query("""select classroom.name, id from User_Classroom
@@ -141,6 +152,42 @@ def join_class():
     conn.commit()
     conn.close()
     return redirect(url_for("view_classess"))
+
+
+@app.route("/Post")
+def Post():
+    classes = do_query("""select classroom.name, Cid from User_Classroom
+                        join classroom ON classroom.id = Cid WHERE Uid = ?;
+                        """, (int(session["_User"]),), None)
+    id = session["_User"]
+    name = do_query("SELECT name from User where id = ?",
+                    (session["_User"],), "fetch")
+    return render_template("Post.html", title="Post", classrooms=classes,
+                           uid=id, user_name=name)
+
+
+@app.route("/SubmitPost", methods=["GET", "POST"])
+def submit_post():
+    id = []
+    conn = sqlite3.connect("learnit.db")
+    cur = conn.cursor()
+    # upload selected image if any
+    if request.method == "POST":
+        if "file1" in request.files:
+            file1 = request.files["file1"]
+            if file1.filename != "":
+                cur.execute("select id from post order by id")
+                id = cur.fetchone()
+                filename = file1.filename + "_" + str(int(id[0])+1)
+                path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file1.save(path)
+    # add information into database
+    if file1.filename == "":
+        filename = None
+    cur.execute("INSERT INTO Post (Uid,Cid,Topic,title,content,Text,usefulness) Values (?,?,1,?,?,?,0)", (session["_User"], request.form.get("classroom"), request.form.get("Title"), filename, request.form.get("content")))
+    conn.commit()
+    conn.close()
+    return redirect(url_for("main_user"))
 
 
 if __name__ == "__main__":

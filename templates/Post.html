@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+  </head>
+  <body>
+    {%include 'header.html'%}
+    {%include 'sidebar.html'%}
+    <div class="post">
+      <h1 class="post-title">Create Post</h1>
+      <br>
+      <h1 class="post-subtext">Classroom</h1><br>
+      <form action="/SubmitPost" method="post" enctype="multipart/form-data">
+        <select class="class-input" name="classroom" placeholder="Classroom">
+          {%for i in classrooms%}
+          <option value="{{i[1]}}">{{i[0]}}</option>
+          {%endfor%}
+        </select>
+        <br><br>
+        <h1 class="post-subtext">Title</h1><br>
+        <textarea name="Title" rows="1" cols="40" maxlength="50" class="title-input" placeholder="Title"></textarea>
+        <br> <h1 class="post-subtext">Image</h1><br>
+        <div class="fileUpload btn btn-primary">
+      <span>Upload</span>
+      <input type="file" name="file1" class="upload" onchange="readURL(this)"/>
+      </div>
+        <br>
+        <img id="blah" src="#" alt="Your image" class="post-image" style="display:None">
+        <h1 class="post-subtext">Text</h1><br>
+        <textarea name="content" rows="8" cols="40" placeholder="Desription" class="text-input"></textarea>
+        <input class="submit-input" type="submit" value="Post!">
+      </form>
+    </div>
+  </body>
+</html>
+
+<script>
+function readURL(input) {
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+              $('#blah')
+                  .attr('src', e.target.result)
+                  // .style("display:block;")
+          };
+
+          reader.readAsDataURL(input.files[0]);
+      }
+      document.getElementById("blah").style.display = "block";
+  }
+</script>
