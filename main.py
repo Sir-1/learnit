@@ -176,7 +176,7 @@ def submit_post():
         if "file1" in request.files:
             file1 = request.files["file1"]
             if file1.filename != "":
-                cur.execute("select id from post order by id")
+                cur.execute("select id from post order by id DESC")
                 id = cur.fetchone()
                 filename = file1.filename + "_" + str(int(id[0])+1)
                 path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
