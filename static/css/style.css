@@ -20,7 +20,6 @@ a{
 
 .title{
   margin-top: 0px;
-  width: 20vw;
   margin-left: 20px;
   text-transform: capitalize;
   line-height: 100px;
@@ -47,9 +46,8 @@ a{
   background-color: rgb(45,45,45);
   color:rgb(140,190,220);
   float: left;
-  position: sticky;
   top: 0px;
-  z-index: 1;
+  position:sticky;
 }
 
 .sidebar-Title{
@@ -109,10 +107,22 @@ div.post:hover{
 }
 
 .post-text{
-  width: 90%;
+  width: 85%;
+  margin-left: 1%;
   padding-left: 5%;
   padding-right: 5%;
   color: rgb(230,230,230);
+  overflow:hidden;
+  background-color: rgb(40,40,40);
+  resize: none;
+  border: None;
+  overflow-y: auto;
+  max-height: 100%;
+  height:auto;
+
+}
+.post-text:hover{
+  border: none;
 
 }
 
@@ -124,6 +134,7 @@ div.post:hover{
   text-decoration: none;
   display: inline;
   text-transform: capitalize;
+
 
 
 }
@@ -148,6 +159,7 @@ div.post:hover{
   float: left;
   line-height: 100px;
   text-shadow: 100px black;
+  margin-bottom: 0px;
 
 }
 
@@ -155,7 +167,6 @@ div.post:hover{
   height: 100%;
   margin-right: 40%;
   margin-left: 30%;
-  border-left: solid 5px cyan;
 
 
 }
@@ -165,6 +176,7 @@ div.post:hover{
   margin-left: 35px;
   vertical-align: middle;
   height: 100%;
+  border-left: solid 5px cyan;
 
 }
 

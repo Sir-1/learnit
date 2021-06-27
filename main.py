@@ -6,8 +6,9 @@ import os
 app = Flask(__name__)
 app.secret_key = """b'(\x9a^\xde\xf8tZm_/&?X\xeb\x00\xda'"""
 UPLOAD_FOLDER = './static/images/'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'jfif'}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["MAX_CONTENT_LENGTH"] = 1000*1000*15
 
 
 def allowed_filename(filename):
@@ -54,8 +55,8 @@ def main_user():
                          (int(session["_User"]),), None)
         names = do_query("""SELECT User.name from Post join User on User.id =
                             Post.Uid WHERE Post.Cid in
-                            (SELECT Cid from User_Classroom Where Uid = 1)""",
-                         (), None)
+                            (SELECT Cid from User_Classroom Where Uid = ?) order by Post.id DESC""",
+                         (int(session["_User"]),), None)
         print(names)
         for i in range(len(posts)):
             posts[i] = list(posts[i])
@@ -76,7 +77,7 @@ def main_user():
                            classes, uid=id, user_name=name)
 
 
-@app.route("/classroom/<ClassID>")
+@app.route("/c/<ClassID>")
 def classrooms(ClassID):
     name = ''
     id = 0
@@ -120,7 +121,7 @@ def logout():
     return redirect(url_for("main_user"))
 
 
-@app.route("/classes")
+@app.route("/c")
 def view_classess():
     name = ''
     my_classess = ""
@@ -144,7 +145,7 @@ def view_classess():
                            classrooms=classes, uid=id, user_name=name, myclassrooms=my_classess)
 
 
-@app.route("/join_Classroom", methods=["POST"])
+@app.route("/join_c", methods=["POST"])
 def join_class():
     my_classess = do_query("""SELECT id from classroom where id in (select Cid from User_Classroom where Uid = ?)""", (session["_User"],), None)
     conn = sqlite3.connect("learnit.db")
@@ -160,7 +161,7 @@ def join_class():
     return redirect(url_for("view_classess"))
 
 
-@app.route("/Post")
+@app.route("/p")
 def Post():
     classes = do_query("""select classroom.name, Cid from User_Classroom
                         join classroom ON classroom.id = Cid WHERE Uid = ?;
@@ -172,7 +173,7 @@ def Post():
                            uid=id, user_name=name)
 
 
-@app.route("/SubmitPost", methods=["GET", "POST"])
+@app.route("/SubmitPost", methods=["POST"])
 def submit_post():
     id = []
     conn = sqlite3.connect("learnit.db")
@@ -190,6 +191,13 @@ def submit_post():
     # add information into database
     if file1.filename == "":
         filename = None
+    elif(file1.filename.rsplit(".")[1].lower() not in ALLOWED_EXTENSIONS):
+        return redirect(url_for("Post"))
+    if request.form.get("Title") == "":
+        return redirect((url_for("Post")))
+    print(file1.filename.rsplit("."))
+    if filename is None and request.form.get("conent"):
+        return redirect(url_for("Post"))
     cur.execute("INSERT INTO Post (Uid,Cid,Topic,title,content,Text,usefulness) Values (?,?,1,?,?,?,0)", (session["_User"], request.form.get("classroom"), request.form.get("Title"), filename, request.form.get("content")))
     conn.commit()
     conn.close()
@@ -197,4 +205,4 @@ def submit_post():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug="true")

@@ -7,16 +7,16 @@
   </head>
   <body>
     {%include 'header.html'%}
-    {%include 'sidebar.html'%}
     <div class="header">
 
-      <h1 class="class-title">{{info[1]}}</h1>
+      <h1 class="title">{{info[1]}}</h1>
       <div class="containter">
         <div class="class-spacer">
           <p class="class-description">{{info[2]}}</p>
         </div>
       </div>
-      <br><br>
+      <br>
+    {%include 'sidebar.html'%}
       {%for i in stuff%}
       {%include 'posts.html'%}
       {%endfor%}
