@@ -204,5 +204,14 @@ def submit_post():
     return redirect(url_for("main_user"))
 
 
+@app.route("/sign-up")
+def sign_up():
+    id = 0
+    classes = do_query("select name,id from classroom order by id", (), None)
+    name = ''
+    return render_template("signUp.html", title="sign up", classrooms=classes,
+                           uid=id, user_name=name, login="1")
+
+
 if __name__ == "__main__":
     app.run(debug="true")

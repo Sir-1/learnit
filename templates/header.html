@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="../static/css/style.css">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>learn.it - {{title}}</title>
   </head>
   <body>
     <div class="header">
@@ -16,12 +16,13 @@
 {%endif%}
         </h1>
 
-
+        {%if login != "1"%}
         <div class="login-box">
           {%if uid == 0%}
           <br>
           <form class="" action="/login" method="post">
             <input class="login-input" type="text" name="UserName" placeholder="User Name">
+            <button type="button" name="button"><a href="sign-up">sign up</a> </button>
             <br><br>
             <input class="login-input" type="password" name="Password" placeholder="Password">
             <input type="submit" name="" value="login">
@@ -34,6 +35,7 @@
 
           {%endif%}
         </div>
+        {%endif%}
 
 
 

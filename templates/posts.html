@@ -9,14 +9,32 @@
       <p class="post-title">{{i[1]}}</p>
       <a class="post-subtext" href="/">{{i[5]}}</a>
       <p class="post-subtext">|</p>
-      <a class="post-subtext" href="/classroom/{{i[7]}}">{{i[6]}}</a>
+      <a class="post-subtext" href="/c/{{i[7]}}">{{i[6]}}</a>
       <br><br>
       {%if i[2] != None%}
       <img class="post-image" src="../static/images/{{i[2]}}" alt="{{i[2]}}" >
       {%endif%}
       {%if i[3] != None%}
-      <textarea class="post-text" readonly>{{i[3]}}</textarea>
+      <textarea id="textarea" disabled="true" style="height:0px;" class="post-text" readonly rows='0' >{{i[3]}}</textarea>
       {%endif%}
     </div>
   </body>
 </html>
+
+<script "text/javascript">
+
+  window.onload = function setheight(){
+    boxes = document.getElementsByTagName('textarea');
+    console.log(boxes)
+    for (var i = 0; i < boxes.length; i++) {
+      boxes[i].style.height = ""
+      boxes[i].style.height = boxes[i].scrollHeight + 'px';
+
+    }
+    window.onresize = function(){
+      setheight();
+
+    }
+
+  }
+</script>

@@ -50,6 +50,8 @@ a{
   position:sticky;
 }
 
+
+
 .sidebar-Title{
   margin-top: 0px;
   margin-left: 10px;
@@ -117,8 +119,6 @@ div.post:hover{
   resize: none;
   border: None;
   overflow-y: auto;
-  max-height: 100%;
-  height:auto;
 
 }
 .post-text:hover{
@@ -313,4 +313,12 @@ div.post:hover{
   color: rgb(140,190,220);
   border: 1px solid cyan;
 
+}
+@media (max-width: 700px) {
+.sidebar{
+  display:none;
+}
+div.post{
+  width: 80vw;
+}
 }
