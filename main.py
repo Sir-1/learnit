@@ -15,6 +15,16 @@ def allowed_filename(filename):
     return "." in filename and filename.rsplit(".", 1).lower() in ALLOWED_EXTENSIONS
 
 
+def hash(password):
+    edit = []
+    edit += password
+    for i in range(len(edit)):
+        edit[i] = str(ord(edit[i]))
+    password = ''.join(edit)
+    password = int(((int(password)/10)**0.5 * int(password) % 1000.5)**5)
+    return password
+
+
 def do_query(query, data, fetch):
     # connect to the database
     conn = sqlite3.connect("learnit.db")
@@ -108,9 +118,8 @@ def login():
     name, password = str(request.form.get("UserName")), str(request.form.get("Password"))
     info = do_query("""SELECT id,name,password From user where name = ?""",
                     (name,), 'hi')
-    print(info)
     if info is not None:
-        if str(info[2]) == str(password):
+        if str(info[2]) == str(hash(str(password))):
             session["_User"] = info[0]
     return redirect(url_for("main_user"))
 
@@ -213,5 +222,25 @@ def sign_up():
                            uid=id, user_name=name, login="1")
 
 
+@app.route("/make_User", methods=["POST"])
+def make_User():
+    password = request.form.get("password1")
+    passwordc = request.form.get("password2")
+    if password != passwordc:
+        return redirect(url_for("sign_up"))
+    names = do_query("select name from User", (), None)
+    print(names)
+    if ((request.form.get("userName"),) not in names and request.form.get("userName") != ''):
+        conn = sqlite3.connect("learnit.db")
+        cur = conn.cursor()
+        cur.execute("insert into User (name,description,password) values (?,?,?)",
+                    (request.form.get("userName"), request.form.get("description"), hash(password)))
+        conn.commit()
+        conn.close()
+        return redirect(url_for("main_user"))
+    return redirect(url_for("sign_up"))
+
+
 if __name__ == "__main__":
     app.run(debug="true")
+    hash("hello")
