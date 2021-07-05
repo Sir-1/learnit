@@ -11,4 +11,5 @@ def hash(password):
     return password
 
 
-print(hash("1234"))
+while True:
+    print(hash(input()))

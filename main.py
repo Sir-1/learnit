@@ -82,7 +82,8 @@ def main_user():
                             """, (int(session["_User"]),), None)
         name = do_query("SELECT name from User where id = ?",
                         (session["_User"],), "fetch")
-
+    if classes == [] and session["_User"] is not None:
+        return redirect(url_for("view_classess"))
     return render_template("main.html", title="main", stuff=posts, classrooms=
                            classes, uid=id, user_name=name)
 
@@ -224,19 +225,24 @@ def sign_up():
 
 @app.route("/make_User", methods=["POST"])
 def make_User():
+    thing = []
     password = request.form.get("password1")
     passwordc = request.form.get("password2")
-    if password != passwordc:
+    if password != passwordc or password == "":
         return redirect(url_for("sign_up"))
     names = do_query("select name from User", (), None)
+    for i in names:
+        thing.append(str(i[0]))
     print(names)
-    if ((request.form.get("userName"),) not in names and request.form.get("userName") != ''):
+    if (str(request.form.get("userName")) not in thing and request.form.get("userName") != ''):
         conn = sqlite3.connect("learnit.db")
         cur = conn.cursor()
         cur.execute("insert into User (name,description,password) values (?,?,?)",
-                    (request.form.get("userName"), request.form.get("description"), hash(password)))
+                    (str(request.form.get("userName")), request.form.get("description"), hash(password)),)
         conn.commit()
         conn.close()
+        user = do_query("select id from User where name = ?", (str(request.form.get("userName")),), "hte")
+        print(user)
         return redirect(url_for("main_user"))
     return redirect(url_for("sign_up"))
 
