@@ -12,5 +12,10 @@
         <a href="/c/{{i[1]}}" class="sidebar-Text">{{i[0]}}</a>
       {%endfor%}
     </div>
+    {%if uid != 0%}
+    <button type="button" class="post-button" >
+      <a href="/p">Post</a>
+    </button>
+    {%endif%}
   </body>
 </html>

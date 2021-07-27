@@ -67,22 +67,21 @@ def main_user():
                             Post.Uid WHERE Post.Cid in
                             (SELECT Cid from User_Classroom Where Uid = ?) order by Post.id DESC""",
                          (int(session["_User"]),), None)
-        print(names)
         for i in range(len(posts)):
             posts[i] = list(posts[i])
         try:
             for i in range(len(names)):
-                print(posts[i][5])
                 posts[i][5] = names[i][0]
 
         except Exception as error:
-            print(error)
+            pass
         classes = do_query("""select classroom.name, id from User_Classroom
                             join classroom ON classroom.id = Cid WHERE Uid = ?;
                             """, (int(session["_User"]),), None)
         name = do_query("SELECT name from User where id = ?",
                         (session["_User"],), "fetch")
-
+    if classes == [] and session["_User"] is not None:
+        return redirect(url_for("view_classess"))
     return render_template("main.html", title="main", stuff=posts, classrooms=
                            classes, uid=id, user_name=name)
 
@@ -148,7 +147,6 @@ def view_classess():
         name = do_query("SELECT name from User where id = ?",
                         (session["_User"],), "fetch")
         my_classess = do_query("""SELECT id from classroom where id in (select Cid from User_Classroom where Uid = ?)""", (session["_User"],), None)
-        print(my_classess)
     posts = do_query("SELECT * from classroom", (), None)
     return render_template("ClassMenu.html", title="Classes", stuff=posts,
                            classrooms=classes, uid=id, user_name=name, myclassrooms=my_classess)
@@ -164,7 +162,7 @@ def join_class():
         cur.execute("""INSERT Into User_Classroom (Uid,Cid,Admin)
                     Values(?,?,0)""", (str(session["_User"]), str(room)))
     else:
-        cur.execute("""DELETE FROM User_Classroom where Uid = ? and Cid = ?""", (session["_User"], room))
+        cur.execute("""DELETE FROM User_Classroom where Uid =   ? and Cid = ?""", (session["_User"], room))
     conn.commit()
     conn.close()
     return redirect(url_for("view_classess"))
@@ -204,7 +202,6 @@ def submit_post():
         return redirect(url_for("Post"))
     if request.form.get("Title") == "":
         return redirect((url_for("Post")))
-    print(file1.filename.rsplit("."))
     if filename is None and request.form.get("conent"):
         return redirect(url_for("Post"))
     cur.execute("INSERT INTO Post (Uid,Cid,Topic,title,content,Text,usefulness) Values (?,?,1,?,?,?,0)", (session["_User"], request.form.get("classroom"), request.form.get("Title"), filename, request.form.get("content")))
@@ -215,7 +212,7 @@ def submit_post():
 
 @app.route("/sign-up")
 def sign_up():
-    id = 0
+    id = 0  ;;
     classes = do_query("select name,id from classroom order by id", (), None)
     name = ''
     return render_template("signUp.html", title="sign up", classrooms=classes,
@@ -224,23 +221,25 @@ def sign_up():
 
 @app.route("/make_User", methods=["POST"])
 def make_User():
+    thing = []
     password = request.form.get("password1")
     passwordc = request.form.get("password2")
-    if password != passwordc:
+    if password != passwordc or password == "":
         return redirect(url_for("sign_up"))
     names = do_query("select name from User", (), None)
-    print(names)
-    if ((request.form.get("userName"),) not in names and request.form.get("userName") != ''):
+    for i in names:
+        thing.append(str(i[0]))
+    if (str(request.form.get("userName")) not in thing and request.form.get("userName") != ''):
         conn = sqlite3.connect("learnit.db")
         cur = conn.cursor()
         cur.execute("insert into User (name,description,password) values (?,?,?)",
-                    (request.form.get("userName"), request.form.get("description"), hash(password)))
+                    (str(request.form.get("userName")), request.form.get("description"), hash(password)),)
         conn.commit()
         conn.close()
+        user = do_query("select id from User where name = ?", (str(request.form.get("userName")),), "hte")
         return redirect(url_for("main_user"))
     return redirect(url_for("sign_up"))
 
 
 if __name__ == "__main__":
     app.run(debug="true")
-    hash("hello")
