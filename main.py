@@ -212,7 +212,7 @@ def submit_post():
 
 @app.route("/sign-up")
 def sign_up():
-    id = 0  ;;
+    id = 0
     classes = do_query("select name,id from classroom order by id", (), None)
     name = ''
     return render_template("signUp.html", title="sign up", classrooms=classes,
@@ -238,6 +238,8 @@ def make_User():
         conn.close()
         user = do_query("select id from User where name = ?", (str(request.form.get("userName")),), "hte")
         return redirect(url_for("main_user"))
+    session["_User"], =do_query("SELECT id from User where name = ?",(str(request.form.get("userName"))),"steve")
+    print(session["_User"])
     return redirect(url_for("sign_up"))
 
 

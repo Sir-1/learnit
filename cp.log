@@ -1,0 +1,9 @@
+INFO: Platform: win32
+INFO: Version Info: v0.3.0
+DEBUG: Log Path: cp.log
+DEBUG: command: ['python', 'H:\\learnit\\learnit\\main.py']
+DEBUG: file: None
+DEBUG: pause: True
+DEBUG: repl: python
+DEBUG: args: ['H:\\learnit\\learnit\\main.py']
+INFO: return code: 3221225786 (0xc000013a)
