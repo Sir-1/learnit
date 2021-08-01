@@ -1,3 +1,4 @@
+
 import sqlite3
 from flask import (Flask, Response, render_template, abort, request, session, redirect, url_for,flash)
 from werkzeug.utils import secure_filename
@@ -225,6 +226,7 @@ def make_User():
     password = request.form.get("password1")
     passwordc = request.form.get("password2")
     if password != passwordc or password == "":
+        flash("sorry password and confimation are different")
         return redirect(url_for("sign_up"))
     names = do_query("select name from User", (), None)
     for i in names:

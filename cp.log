@@ -6,4 +6,3 @@ DEBUG: file: None
 DEBUG: pause: True
 DEBUG: repl: python
 DEBUG: args: ['H:\\learnit\\learnit\\main.py']
-INFO: return code: 3221225786 (0xc000013a)

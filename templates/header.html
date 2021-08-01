@@ -4,6 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title>learn.it - {{title}}</title>
+
   </head>
   <body>
     <div class="header">
@@ -35,11 +36,10 @@
           {%endif%}
         </div>
         {%endif%}
-
-
-
-
-
     </div>
+    {% for message in get_flashed_messages() %}
+        <p>{{message}}</p>
+    {% endfor %}
   </body>
+
 </html>
