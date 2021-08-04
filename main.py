@@ -171,6 +171,8 @@ def join_class():
 
 @app.route("/p")
 def Post():
+    if session.get("_User") is None:
+        return redirect(url_for("main_user"))
     classes = do_query("""select classroom.name, Cid from User_Classroom
                         join classroom ON classroom.id = Cid WHERE Uid = ?;
                         """, (int(session["_User"]),), None)
@@ -225,13 +227,16 @@ def make_User():
     thing = []
     password = request.form.get("password1")
     passwordc = request.form.get("password2")
-    if password != passwordc or password == "":
-        flash("sorry password and confimation are different")
+    if request.form.get("userName") == '' or request.form.get("userName") is None:
+        flash("sorry no name has been given")
         return redirect(url_for("sign_up"))
     names = do_query("select name from User", (), None)
     for i in names:
         thing.append(str(i[0]))
-    if (str(request.form.get("userName")) not in thing and request.form.get("userName") != ''):
+    if (str(request.form.get("userName")) not in thing):
+        if password != passwordc or password == "":
+            flash("sorry password and confimation are different")
+            return redirect(url_for("sign_up"))
         conn = sqlite3.connect("learnit.db")
         cur = conn.cursor()
         cur.execute("insert into User (name,description,password) values (?,?,?)",
@@ -239,10 +244,54 @@ def make_User():
         conn.commit()
         conn.close()
         user = do_query("select id from User where name = ?", (str(request.form.get("userName")),), "hte")
+        print(user)
+        session["_User"], = user
         return redirect(url_for("main_user"))
-    session["_User"], =do_query("SELECT id from User where name = ?",(str(request.form.get("userName"))),"steve")
-    print(session["_User"])
+    else:
+        flash("sorry username is already taken")
+        return redirect(url_for("sign_up"))
     return redirect(url_for("sign_up"))
+
+
+@app.route("/make_C")
+def make_class_screen():
+    if session.get("_User") is None:
+        return redirect(url_for("main_user"))
+    classes = do_query("""select classroom.name, Cid from User_Classroom
+                        join classroom ON classroom.id = Cid WHERE Uid = ?;
+                        """, (int(session["_User"]),), None)
+    id = session["_User"]
+    name = do_query("SELECT name from User where id = ?",
+                    (session["_User"],), "fetch")
+    return render_template("makeClass.html", title="Create Class", classrooms=classes,
+                           uid=id, user_name=name)
+
+
+@app.route("/create_c", methods=["POST"])
+def make_c():
+    name = request.form.get("Title")
+    Desription = request.form.get("content")
+    names = do_query("SELECT name from classroom", (), None)
+    print(names)
+    if name == '' or name is None:
+        flash("please input a name")
+        return redirect(url_for("make_class_screen"))
+    if (name,) in names:
+        flash("sorry that class already exists")
+        return redirect(url_for("make_class_screen"))
+    if Desription == '' or Desription is None:
+        flash("please input a description")
+        return redirect(url_for("make_class_screen"))
+    conn = sqlite3.connect("learnit.db")
+    cur = conn.cursor()
+    cur.execute("insert into classroom (name,description) values (?,?)",
+                (str(name), str(Desription)),)
+    conn.commit()
+    classid = do_query("select id from classroom where name = ?", (name, ), "hello")
+    cur.execute("insert into User_Classroom (Uid,Cid,Admin) Values(?,?,?)", (int(session["_User"]), int(classid[0]), 1))
+    conn.commit()
+    conn.close()
+    return redirect(url_for("main_user"))
 
 
 if __name__ == "__main__":

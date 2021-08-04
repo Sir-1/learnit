@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    {%include 'header.html'%}
+    {%include 'sidebar.html'%}
+    <div class="post">
+      <h1 class="post-title">Create Class</h1>
+      <br>
+      <form action="/create_c" method="post" enctype="multipart/form-data">
+        <h1 class="post-subtext">Class Name</h1><br>
+        <input name="Title" rows="1" cols="40" maxlength="25" class="title-input" placeholder="Class Name" onchange="resize(this)"></input>
+        <br><br>
+        <h1 class="post-subtext">Description</h1>
+        <textarea name="content" rows="8" cols="40" placeholder="Desription" class="text-input" maxlength="100"></textarea>
+        <input class="submit-input" type="submit" value="Create!">
+      </form>
+    </div>
+    {% for message in get_flashed_messages() %}
+        <p class="error">{{message}}</p>
+    {% endfor %}
+  </body>
+</html>

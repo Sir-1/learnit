@@ -81,9 +81,20 @@ div.post{
   padding-bottom:  10px;
 
 }
+.post-container{
+  width: 30vw;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-div.post:hover{
+.post-container:hover .post{
+  transform: scale(0.98);
+  transition-timing-function: ease-in-out;
+  transition: 0.2s;
+}
+.post-container .post:hover{
   box-shadow: inset 0px 0px 0px 1px rgb(140,190,220);
+  transform: scale(1.02);
 }
 
 .post-title{
@@ -123,6 +134,7 @@ div.post:hover{
 }
 .post-text:hover{
   border: none;
+  cursor:  text;
 
 }
 
@@ -308,6 +320,7 @@ div.post:hover{
 }
 
 .submit-input{
+  cursor: pointer;
   margin-left: 10px;
   background-color: rgb(45,45,45);
   color: rgb(140,190,220);
@@ -351,8 +364,37 @@ a{
   border-radius: 2px;
 }
 
-.error{}
+.error{
+  color: rgb(255,10,10);
+  display: block;
+  text-align:center;
+  transform: translate(-7.5vw,0);
+}
+.options{
+  width: 60px;
+  height:60px;
+  float: right;
+}
 
+.options-text{
+
+
+}
+.options-content{
+  display: none;
+
+}
+
+.options :hover .options-contents{
+  display: block;
+
+}
+
+.dropdown{
+  float:right;
+  margin-top: 20px;
+  margin-right:20px;
+}
 
 @media (max-width: 700px) {
 .sidebar{
@@ -360,8 +402,14 @@ a{
 }
 div.post{
   width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 .make-class-link{
   left: calc(100vw - 60px);
+}
+.error{
+transform: translate(0,0);
+
 }
 }

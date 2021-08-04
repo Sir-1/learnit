@@ -25,5 +25,8 @@
         <input class="submit-input" type="submit"value="submit">
       </form>
     </div>
+    {% for message in get_flashed_messages() %}
+        <p class="error">{{message}}</p>
+    {% endfor %}
   </body>
 </html>
