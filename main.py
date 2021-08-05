@@ -1,6 +1,7 @@
 
 import sqlite3
-from flask import (Flask, Response, render_template, abort, request, session, redirect, url_for,flash)
+from flask import (Flask, Response, render_template, abort,
+                   request, session, redirect, url_for, flash)
 from werkzeug.utils import secure_filename
 import os
 
@@ -72,6 +73,7 @@ def main_user():
             posts[i] = list(posts[i])
         try:
             for i in range(len(names)):
+                posts[i].append(posts[i][5])
                 posts[i][5] = names[i][0]
 
         except Exception as error:
@@ -83,8 +85,7 @@ def main_user():
                         (session["_User"],), "fetch")
     if classes == [] and session["_User"] is not None:
         return redirect(url_for("view_classess"))
-    return render_template("main.html", title="main", stuff=posts, classrooms=
-                           classes, uid=id, user_name=name)
+    return render_template("main.html", title="main", stuff=posts, classrooms=classes, uid=id, user_name=name)
 
 
 @app.route("/c/<ClassID>")
@@ -115,7 +116,8 @@ def classrooms(ClassID):
 @app.route("/login", methods=["POST"])
 def login():
     name, password = "", ""
-    name, password = str(request.form.get("UserName")), str(request.form.get("Password"))
+    name, password = str(request.form.get("UserName")), str(
+        request.form.get("Password"))
     info = do_query("""SELECT id,name,password From user where name = ?""",
                     (name,), 'hi')
     if info is not None:
@@ -147,7 +149,8 @@ def view_classess():
                             """, (int(session["_User"]),), None)
         name = do_query("SELECT name from User where id = ?",
                         (session["_User"],), "fetch")
-        my_classess = do_query("""SELECT id from classroom where id in (select Cid from User_Classroom where Uid = ?)""", (session["_User"],), None)
+        my_classess = do_query(
+            """SELECT id from classroom where id in (select Cid from User_Classroom where Uid = ?)""", (session["_User"],), None)
     posts = do_query("SELECT * from classroom", (), None)
     return render_template("ClassMenu.html", title="Classes", stuff=posts,
                            classrooms=classes, uid=id, user_name=name, myclassrooms=my_classess)
@@ -155,7 +158,8 @@ def view_classess():
 
 @app.route("/join_c", methods=["POST"])
 def join_class():
-    my_classess = do_query("""SELECT id from classroom where id in (select Cid from User_Classroom where Uid = ?)""", (session["_User"],), None)
+    my_classess = do_query(
+        """SELECT id from classroom where id in (select Cid from User_Classroom where Uid = ?)""", (session["_User"],), None)
     conn = sqlite3.connect("learnit.db")
     cur = conn.cursor()
     room = request.form.get("Join")
@@ -163,7 +167,8 @@ def join_class():
         cur.execute("""INSERT Into User_Classroom (Uid,Cid,Admin)
                     Values(?,?,0)""", (str(session["_User"]), str(room)))
     else:
-        cur.execute("""DELETE FROM User_Classroom where Uid =   ? and Cid = ?""", (session["_User"], room))
+        cur.execute(
+            """DELETE FROM User_Classroom where Uid =   ? and Cid = ?""", (session["_User"], room))
     conn.commit()
     conn.close()
     return redirect(url_for("view_classess"))
@@ -207,7 +212,8 @@ def submit_post():
         return redirect((url_for("Post")))
     if filename is None and request.form.get("conent"):
         return redirect(url_for("Post"))
-    cur.execute("INSERT INTO Post (Uid,Cid,Topic,title,content,Text,usefulness) Values (?,?,1,?,?,?,0)", (session["_User"], request.form.get("classroom"), request.form.get("Title"), filename, request.form.get("content")))
+    cur.execute("INSERT INTO Post (Uid,Cid,Topic,title,content,Text,usefulness) Values (?,?,1,?,?,?,0)",
+                (session["_User"], request.form.get("classroom"), request.form.get("Title"), filename, request.form.get("content")))
     conn.commit()
     conn.close()
     return redirect(url_for("main_user"))
@@ -243,7 +249,8 @@ def make_User():
                     (str(request.form.get("userName")), request.form.get("description"), hash(password)),)
         conn.commit()
         conn.close()
-        user = do_query("select id from User where name = ?", (str(request.form.get("userName")),), "hte")
+        user = do_query("select id from User where name = ?",
+                        (str(request.form.get("userName")),), "hte")
         print(user)
         session["_User"], = user
         return redirect(url_for("main_user"))
@@ -287,11 +294,35 @@ def make_c():
     cur.execute("insert into classroom (name,description) values (?,?)",
                 (str(name), str(Desription)),)
     conn.commit()
-    classid = do_query("select id from classroom where name = ?", (name, ), "hello")
-    cur.execute("insert into User_Classroom (Uid,Cid,Admin) Values(?,?,?)", (int(session["_User"]), int(classid[0]), 1))
+    classid = do_query(
+        "select id from classroom where name = ?", (name, ), "hello")
+    cur.execute("insert into User_Classroom (Uid,Cid,Admin) Values(?,?,?)",
+                (int(session["_User"]), int(classid[0]), 1))
     conn.commit()
     conn.close()
     return redirect(url_for("main_user"))
+
+
+@app.route("/save_post", methods=["POST"])
+def save_post():
+    conn = sqlite3.connect("learnit.db")
+    cur = conn.cursor()
+    cur.execute(
+        "select pid from saved_post where uid = ?", (session["_User"],))
+    t = cur.fetchall()
+    posts = [str(i[0]) for i in t]
+    print(posts)
+    print((x := request.form.get("Pid")))
+    if str(x) in posts:
+        print("steve")
+        cur.execute("delete from saved_post where uid = ? and pid = ?",
+                    (session["_User"], x))
+    else:
+        cur.execute("insert into saved_post (uid,pid) values (?,?)",
+                    (str(session["_User"]), str(x)))
+    conn.commit()
+    conn.close()
+    return "true"
 
 
 if __name__ == "__main__":

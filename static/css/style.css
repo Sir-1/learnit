@@ -9,6 +9,38 @@ div.header{
   position: relative;
 }
 
+.dropdown{
+  float: right;
+  margin-right: 10px;
+  margin-top: 10px;
+  width: 5%;
+  height: 5%;
+}
+
+.dropdown h1{
+  color:rgb(140,190,220);
+  display: inline;
+  margin: 0px;
+  font-size: 100%;
+
+}
+
+.drop-menu{
+  display: none;
+  background-color: rgb(40,40,40);
+  z-index: 1;
+  position: absolute;
+  border: 1px cyan solid;
+  color: white;
+  width: 100px;
+  height 50px;
+
+}
+.post :hover .drop-menu{
+  display: inline-block;
+
+}
+
 body{
   margin: 0;
   background-color: rgb(15,15,15)
@@ -87,12 +119,12 @@ div.post{
   margin-right: auto;
 }
 
-.post-container:hover .post{
+ .post:hover{
   transform: scale(0.98);
   transition-timing-function: ease-in-out;
   transition: 0.2s;
 }
-.post-container .post:hover{
+.post:hover{
   box-shadow: inset 0px 0px 0px 1px rgb(140,190,220);
   transform: scale(1.02);
 }
@@ -370,31 +402,8 @@ a{
   text-align:center;
   transform: translate(-7.5vw,0);
 }
-.options{
-  width: 60px;
-  height:60px;
-  float: right;
-}
-
-.options-text{
 
 
-}
-.options-content{
-  display: none;
-
-}
-
-.options :hover .options-contents{
-  display: block;
-
-}
-
-.dropdown{
-  float:right;
-  margin-top: 20px;
-  margin-right:20px;
-}
 
 @media (max-width: 700px) {
 .sidebar{
