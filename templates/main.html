@@ -8,6 +8,29 @@
   <body>
     {%include 'header.html'%}
     {%include 'sidebar.html'%}
+    {%if uid != 0%}
+    <div class="mode-select">
+        {%if page == 0%}
+      <div class="mode-selected">
+        <p class="mode-text-selected">Posts</p>
+      </div>
+      <a href="/">
+      <div class="mode">
+        <p class="mode-text">Saved</p>
+      </div>
+      </a>
+      {%else%}
+      <a href="/">
+      <div class="mode">
+        <p class="mode-text">Posts</p>
+      </div>
+      </a>
+      <div class="mode-selected">
+        <p class="mode-text-selected">Saved</p>
+      </div>
+      {%endif%}
+    </div>
+    {%endif%}
     {%for i in stuff%}
     {%include 'posts.html'%}
     {%endfor%}

@@ -403,6 +403,81 @@ a{
   transform: translate(-7.5vw,0);
 }
 
+.mode-select{
+  float: left;
+  width: 5vw;
+  height: 100px;
+  position: sticky;
+  top: 0px;
+
+}
+.mode{
+  width: 80%;
+  height: 30%;
+  background-color: rgb(45,45,45);
+  z-index: 1;
+  text-align: center;
+  color: white;
+}
+
+.mode-text{
+  text-align: center;
+  padding: 7px;
+  margin: 0;
+}
+
+.mode-selected{
+  z-index: 1;
+  text-align: center;
+  width: 100%;
+  height: 30%;
+  background-color: cyan;
+}
+
+.mode-text-selected{
+  color: black;
+  padding: 7px;
+  margin: 0;
+
+}
+
+.bookmark{
+  width: 10px;
+  height: 10px;
+  margin-top: 15px;
+  background-color: cyan;
+  display: inline;
+  float: right;
+  position: relative;
+  transform: translate(100%);
+}
+
+.bookmark:hover{
+  transition-timing-function: ease-in-out;
+  transition: 0.2s;
+  width: 20px;
+
+}
+
+.savedbookmark{
+  width: 20px;
+  height: 10px;
+  margin-top: 15px;
+  background-color: rgb(20,200,70);
+  display: inline;
+  float: right;
+  position: relative;
+  transform: translate(100%);
+
+}
+
+.savedbookmark:hover{
+  transition-timing-function: ease-in-out;
+  transition: 0.2s;
+  width: 19px;
+
+}
+
 
 
 @media (max-width: 700px) {

@@ -45,6 +45,7 @@ def do_query(query, data, fetch):
 def main_user():
     name = ''
     id = 0
+    saved = []
 # if there is a user signed in fetch their information feom the database
     if session.get("_User") is None:
         posts = do_query("""SELECT Post.id,Post.title, Post.content,
@@ -65,6 +66,9 @@ def main_user():
                         JOIN Post ON classroom.id = Post.Cid
                         WHERE User.id = ? order by Post.id DESC""",
                          (int(session["_User"]),), None)
+        saved = do_query(
+            "SELECT pid from saved_post where uid = ?", (id,), None)
+        print(saved)
         names = do_query("""SELECT User.name from Post join User on User.id =
                             Post.Uid WHERE Post.Cid in
                             (SELECT Cid from User_Classroom Where Uid = ?) order by Post.id DESC""",
@@ -85,7 +89,7 @@ def main_user():
                         (session["_User"],), "fetch")
     if classes == [] and session["_User"] is not None:
         return redirect(url_for("view_classess"))
-    return render_template("main.html", title="main", stuff=posts, classrooms=classes, uid=id, user_name=name)
+    return render_template("main.html", title="main", stuff=posts, classrooms=classes, uid=id, user_name=name, Saved=saved, page=0)
 
 
 @app.route("/c/<ClassID>")
@@ -323,6 +327,28 @@ def save_post():
     conn.commit()
     conn.close()
     return "true"
+
+
+@app.route("/delete", methods=["POST"])
+def delete():
+    conn = sqlite3.connect("learnit.db")
+    cur = conn.cursor()
+    cur.execute("Delete from Post where id = ? and uid = ?",
+                (request.form.get("delete"), session["_User"]))
+    conn.commit()
+    conn.close()
+    return "true"
+
+
+@app.route("/saved")
+def saved():
+    if session.get("_User") is None:
+        return redirect(url_for("main_user"))
+    Classrooms = do_query(
+        "select * from classroom where id in (select Cid from User_Classroom where Uid = ?)", (session["User"],), None)
+    id = session["_User"]
+    name, = do_query("select name from User where id = ?", (id,), "fetch")
+    return render_template("saved.html", title="saved", classrooms=Classrooms, uid=id, user_name=name, page=1)
 
 
 if __name__ == "__main__":
