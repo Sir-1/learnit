@@ -1,15 +1,3 @@
-def hash(password):
-    edit = []
-    edit += password
-    print(edit)
-    for i in range(len(edit)):
-        edit[i] = str(ord(edit[i]))
-    print(edit)
-    password = ''.join(edit)
-    print(password)
-    password = int(((int(password)/10)**0.5 * int(password) % 1000.5)**5)
-    return password
+# print(*"Fizz" if i % 3 == 0 else "Buzz" if i % 5 == 0: else "FizzBuzz" if i % 5 == 0 and i % 3 == 0: else i, "\n"for i in range(1000))
 
-
-while True:
-    print(hash(input()))
+print(i for i in range(7) if i == 4)

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<link rel="stylesheet" href="../static/css/style.css">
+  <head>
+    <meta charset="utf-8">
+    <title>learnit-{{title}}</title>
+  </head>
+  <body>
+    <div id = "activate" class="largepost-container">
+      <p id = "close" onclick="close()" class="big-post-close">X</p>
+      {%for i in post%}
+    {%include 'posts.html'%}
+    {%endfor%}
+    </div>
+    {%include 'header.html'%}
+    {%include 'sidebar.html'%}
+    {%if uid != 0%}
+
+    <div class="mode-select">
+        {%if page == 0%}
+      <div class="mode-selected">
+        <p class="mode-text-selected">Posts</p>
+      </div>
+      <a href="/saved">
+      <div class="mode">
+        <p class="mode-text">Saved</p>
+      </div>
+      </a>
+      {%else%}
+      <a href="/">
+      <div class="mode">
+        <p class="mode-text">Posts</p>
+      </div>
+      </a>
+      <div class="mode-selected">
+        <p class="mode-text-selected">Saved</p>
+      </div>
+      {%endif%}
+    </div>
+    {%endif%}
+
+<div style="float:right; width:75vw;">
+
+<div class="saved-container">
+{%for i in range (stuff|count) %}
+{%if i%2 == 0%}
+    <div class="saveed-button" onclick="filter('{{stuff[i][1]}}',this)">
+      {{stuff[i][1]}}
+    </div>
+    {%else%}
+    <div class="saveed-button-L"onclick="filter('{{stuff[i][1]}}',this)">
+      {{stuff[i][1]}}
+    </div>
+    <br>
+  {%endif%}
+
+
+
+{%endfor%}
+<br><br><br>
+</div>
+
+<div class="saved-post-container">
+  {%for i in post%}
+
+  <div  class="saved-post-left" onclick="activate({{i[0]}})">
+    <p class="post-text-1">{{i[1]}}</p>
+    <p class="post-text">{{i[6]}}</p>
+    {%if i[2] != None%}
+    <img class="saved-post-image" src="../static/images/{{i[2]}}" alt="error">
+    {%endif%}
+    {%if i[3] != None%}
+    <textarea disabled="true" readonly class="save-post-text"{%if i[2] == None %} style="height:50%"{%endif%}>{{i[3]}}</textarea>
+    {%endif%}
+  </div>
+
+  {%endfor%}
+</div>
+
+</div>
+  </body>
+</html>
+
+
+<script type="text/javascript">
+var classess = [];
+  function filter(x,ob){
+    console.log(classess.includes(x),x,classess);
+    if(classess.includes(x) == false){
+      classess.push(x.toString());
+      if(ob.className == "saveed-button-L"){
+        ob.className = "s-b-l-s";
+      }else{
+        ob.className = "s-b-s";
+      }
+    }else
+    {
+      for (var i = 0; i < classess.length; i++) {
+        if(classess[i] === x){
+          classess.splice(i,1);
+        }
+      }
+      if(ob.className == "s-b-l-s"){
+        ob.className = "saveed-button-L";
+      }else{
+        ob.className = "saveed-button";
+      }
+    }
+      var elem = document.getElementsByClassName("post-text")
+      for (var i = 0; i < elem.length; i++) {
+        if(classess.includes(elem[i].innerHTML)==false&&classess.length!=0){
+          elem[i].parentElement.style.display = "none";
+        }else {
+          elem[i].parentElement.style.display = "inline-block";
+        }
+    }
+
+    window.onload = (event) => {
+      console.log("hello");
+      var items = document.getElementsByClassName("post");
+      console.log(items);
+      for (var i = 0; i < items.length; i++) {
+        console.log(items[i]);
+        items[i].style.display = 'none';
+      }
+    }
+}
+
+function activate(x){
+  var container = document.getElementById("activate");
+  console.log(container)
+  container.style.display = "block";
+  for (var i = 0; i < container.children.length; i++) {
+    if(container.children[i].id == x){
+      console.log("deleteed");
+      document.getElementById("close").style.display = "block"
+      container.children[i].className = "big-post";
+      container.children[i].style.display = "block";
+      container.children[i].style.width = "50vw";
+      var text = document.getElementById("textarea"+x.toString());
+      console.log(text);
+      if(text){
+         text.style.height = text.scrollHeight+"px";
+       }
+    }else{
+      container.children[i].style.display = "none";
+    }
+  }
+}
+function close(){
+  console.log("close");
+  document.getElementById("activate").style.display = "none";
+}
+</script>

@@ -5,7 +5,7 @@
     <title></title>
   </head>
   <body>
-    <div class="post">
+    <div class="post" id = "{{i[0]}}">
       {%if uid!=0%}
       {%if (i[0],) in Saved %}
       <div id ="saved{{i[0]}}" class="savedbookmark" onclick="save({{i[0]}})"></div>
@@ -39,7 +39,7 @@
       <img class="post-image" src="../static/images/{{i[2]}}" alt="{{i[2]}}" >
       {%endif%}
       {%if i[3] != None%}
-      <textarea id="textarea" disabled="true" style="height:0px;" class="post-text" readonly rows='0' >{{i[3]}}</textarea>
+      <textarea id="textarea{{i[0]}}" disabled="true" style="height:0px;" class="post-text" readonly rows='0' >{{i[3]}}</textarea>
       {%endif%}
 
     </div>
@@ -78,13 +78,15 @@
     req.send("Pid=" + x.toString());
     var element = document.getElementById(x.toString());
     var bmark = document.getElementById("saved" + x.toString())
-    console.log(element.tagName);
-    if(element.value == "Remove"){
-      element.value = "Save"
-      bmark.className = "bookmark"
+
+    console.log(bmark);
+    if(bmark.className == "savedbookmark"){
+      alert(bmark.className);
+      element.value = "Save";
+      bmark.className = "bookmark";
     }else{
       element.value = "Remove";
-      bmark.className = "savedbookmark"
+      bmark.className = "savedbookmark";
     }
   }
 

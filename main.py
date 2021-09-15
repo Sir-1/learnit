@@ -95,6 +95,7 @@ def main_user():
 @app.route("/c/<ClassID>")
 def classrooms(ClassID):
     name = ''
+    saved = []
     id = 0
     # collect all of the posts within a classroom and open the classsroom page
     posts = do_query("""SELECT Post.id,Post.title, Post.content,
@@ -107,6 +108,8 @@ def classrooms(ClassID):
     classes = do_query("select name, id from classroom;", (), None)
     if session.get("_User") is not None:
         id = session["_User"]
+        saved = do_query(
+            "SELECT pid from saved_post where uid = ?", (id,), None)
         classes = do_query("""select classroom.name, id from User_Classroom
                             join classroom ON classroom.id = Cid WHERE Uid = ?;
                             """, (int(session["_User"]),), None)
@@ -114,7 +117,7 @@ def classrooms(ClassID):
                         (session["_User"],), "fetch")
     return render_template("classroom.html", stuff=posts, info=classroom,
                            classrooms=classes, user_name=name,
-                           uid=id)
+                           uid=id, Saved=saved)
 
 
 @app.route("/login", methods=["POST"])
@@ -344,11 +347,17 @@ def delete():
 def saved():
     if session.get("_User") is None:
         return redirect(url_for("main_user"))
+    saved = do_query(
+        "SELECT pid from saved_post where uid = ?", (session["_User"],), None)
     Classrooms = do_query(
-        "select * from classroom where id in (select Cid from User_Classroom where Uid = ?)", (session["User"],), None)
+        "select * from classroom where id in (select Cid from User_Classroom where Uid = ?)", (session["_User"],), None)
     id = session["_User"]
-    name, = do_query("select name from User where id = ?", (id,), "fetch")
-    return render_template("saved.html", title="saved", classrooms=Classrooms, uid=id, user_name=name, page=1)
+    name = do_query("select name from User where id = ?", (id,), "fetch")
+    classnames = do_query(
+        "select name,id from classroom where id in (select Cid from User_classroom where Uid = ?) order by id", (session["_User"],), None)
+    Posts = do_query(
+        "SELECT Post.id, Post.title, Post.content, Post.Text, User.name, classroom.id, classroom.name from Post Join User on Post.Uid = User.id Join classroom on Post.Cid = classroom.id where Post.id in (Select Pid from saved_post where Uid = ?) order by -Post.id", (session["_User"],), None)
+    return render_template("saved.html", classrooms=classnames, title="saved", stuff=Classrooms, uid=id, user_name=name, page=1, post=Posts, Saved=saved)
 
 
 if __name__ == "__main__":
