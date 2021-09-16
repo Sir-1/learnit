@@ -496,6 +496,7 @@ a{
   float: right;
   position: relative;
   transform: translate(100%);
+  cursor: pointer;
 }
 
 .bookmark:hover{
@@ -515,6 +516,7 @@ a{
   float: right;
   position: relative;
   transform: translate(100%);
+  cursor: pointer;
 
 }
 

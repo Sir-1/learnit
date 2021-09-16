@@ -6,8 +6,8 @@
     <title>learnit-{{title}}</title>
   </head>
   <body>
-    <div id = "activate" class="largepost-container">
-      <p id = "close" onclick="close()" class="big-post-close">X</p>
+    <div id = "activate" class="largepost-container" onclick = "closePost(this)">
+      <input id='close' type="button" name="close" value="X" class="big-post-close">
       {%for i in post%}
     {%include 'posts.html'%}
     {%endfor%}
@@ -82,7 +82,7 @@
 </html>
 
 
-<script type="text/javascript">
+<script type="text/javascript" scr="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
 var classess = [];
   function filter(x,ob){
     console.log(classess.includes(x),x,classess);
@@ -133,7 +133,7 @@ function activate(x){
   for (var i = 0; i < container.children.length; i++) {
     if(container.children[i].id == x){
       console.log("deleteed");
-      document.getElementById("close").style.display = "block"
+      document.getElementById("close").style.display = "block";
       container.children[i].className = "big-post";
       container.children[i].style.display = "block";
       container.children[i].style.width = "50vw";
@@ -147,8 +147,14 @@ function activate(x){
     }
   }
 }
-function close(){
-  console.log("close");
-  document.getElementById("activate").style.display = "none";
+function closePost(x){
+  console.log(window.event.target);
+  var container = document.getElementById("activate");
+  var close = document.getElementById("close");
+  if(window.event.target == container || window.event.target == close){
+    container.style.display = "none";
+  }
 }
+
+
 </script>

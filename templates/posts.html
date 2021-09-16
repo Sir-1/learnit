@@ -22,9 +22,9 @@
           <br><br>
           {%endif%}
           {%if (i[0],) in Saved %}
-          <input class="submit-input" id="{{i[0]}}" type="button" onclick="save({{i[0]}})" value="Remove">
+          <input class="submit-input" id="S{{i[0]}}" type="button" onclick="save({{i[0]}})" value="Remove">
           {%else%}
-          <input class="submit-input" id="{{i[0]}}" type="button" onclick="save({{i[0]}})" value="Save">
+          <input class="submit-input" id="S{{i[0]}}" type="button" onclick="save({{i[0]}})" value="Save">
           {%endif%}
           <br><br>
         </div>
@@ -76,12 +76,12 @@
     req.open("POST","/save_post",true);
     req.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     req.send("Pid=" + x.toString());
-    var element = document.getElementById(x.toString());
+    var element = document.getElementById("S"+x.toString());
     var bmark = document.getElementById("saved" + x.toString())
 
     console.log(bmark);
+    console.log(element);
     if(bmark.className == "savedbookmark"){
-      alert(bmark.className);
       element.value = "Save";
       bmark.className = "bookmark";
     }else{
