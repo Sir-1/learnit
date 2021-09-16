@@ -51,6 +51,7 @@
 <script "text/javascript">
 
   window.onload = function setheight(){
+    // when the page loads fix teh sizes of all teh textareas
     boxes = document.getElementsByTagName('textarea');
     console.log(boxes);
     for (var i = 0; i < boxes.length; i++) {
@@ -59,6 +60,7 @@
 
     }
     window.onresize = function(){
+      // fix height when teh window changes size
       setheight();
 
     }
@@ -66,6 +68,7 @@
   }
 
   function save(x){
+    // when a post is saved or removed send the values to python and add or remove it from teh database
     if(window.XMLHttpRequest){
       var req = new XMLHttpRequest();
     }

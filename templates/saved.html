@@ -85,9 +85,12 @@
 <script type="text/javascript" scr="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
 var classess = [];
   function filter(x,ob){
+    // function that activates and deactivates posts based on buttons on top of page
     console.log(classess.includes(x),x,classess);
+    // checks if class already selected
     if(classess.includes(x) == false){
       classess.push(x.toString());
+      // changes class of clicked button
       if(ob.className == "saveed-button-L"){
         ob.className = "s-b-l-s";
       }else{
@@ -100,12 +103,14 @@ var classess = [];
           classess.splice(i,1);
         }
       }
+      // switches teh class of the clicked button
       if(ob.className == "s-b-l-s"){
         ob.className = "saveed-button-L";
       }else{
         ob.className = "saveed-button";
       }
     }
+    // loops through posts and deactivates posts from classrooms not in classess
       var elem = document.getElementsByClassName("post-text")
       for (var i = 0; i < elem.length; i++) {
         if(classess.includes(elem[i].innerHTML)==false&&classess.length!=0){
@@ -116,6 +121,7 @@ var classess = [];
     }
 
     window.onload = (event) => {
+      // when loading the page disable all posts
       console.log("hello");
       var items = document.getElementsByClassName("post");
       console.log(items);
@@ -127,9 +133,12 @@ var classess = [];
 }
 
 function activate(x){
+  // when clicking on a post bring up the larger post
   var container = document.getElementById("activate");
   console.log(container)
+  // change class of div container
   container.style.display = "block";
+  // loop through child and activate teh one that was clicked
   for (var i = 0; i < container.children.length; i++) {
     if(container.children[i].id == x){
       console.log("deleteed");
@@ -140,6 +149,7 @@ function activate(x){
       var text = document.getElementById("textarea"+x.toString());
       console.log(text);
       if(text){
+        // set texarea size to be correct
          text.style.height = text.scrollHeight+"px";
        }
     }else{
@@ -148,6 +158,7 @@ function activate(x){
   }
 }
 function closePost(x){
+  // when the contained is clicked check if it wasnt its children then close the post
   console.log(window.event.target);
   var container = document.getElementById("activate");
   var close = document.getElementById("close");
