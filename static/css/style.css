@@ -447,6 +447,8 @@ a{
   display: block;
   text-align:center;
   transform: translate(-7.5vw,0);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .mode-select{
@@ -488,8 +490,8 @@ a{
 }
 
 .bookmark{
-  width: 10px;
-  height: 10px;
+  width: 20px;
+  height: 12px;
   margin-top: 15px;
   background-color: cyan;
   display: inline;
@@ -502,13 +504,13 @@ a{
 .bookmark:hover{
   transition-timing-function: ease-in-out;
   transition: 0.2s;
-  width: 20px;
+  width: 30px;
 
 }
 
 .savedbookmark{
   width: 20px;
-  height: 10px;
+  height: 12px;
   margin-top: 15px;
   background-color: rgb(20,200,70);
   box-shadow: 10px 10px 0px 0px;

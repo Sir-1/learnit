@@ -7,6 +7,16 @@
   <body>
     {%include 'header.html'%}
     {%include 'sidebar.html'%}
+    <div class="mode-select">
+      <div class="mode-selected">
+        <p class="mode-text-selected">Posts</p>
+      </div>
+      <a href="/saved">
+      <div class="mode">
+        <p class="mode-text">Saved</p>
+      </div>
+      </a>
+    </div>
     {%for i in stuff%}
     <div class="post">
       <a href="/c/{{i[0]}}"><h1 class="post-title" >{{i[1]}}</h1></a>

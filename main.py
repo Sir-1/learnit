@@ -174,7 +174,8 @@ def view_classess():
             (session["_User"],), None)
     posts = do_query("SELECT * from classroom", (), None)
     return render_template("ClassMenu.html", title="Classes", stuff=posts,
-                           classrooms=classes, uid=id, user_name=name, myclassrooms=my_classess)
+                           classrooms=classes, uid=id, user_name=name,
+                           myclassrooms=my_classess, page=0)
 
 
 @app.route("/join_c", methods=["POST"])
